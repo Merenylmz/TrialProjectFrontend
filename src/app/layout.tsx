@@ -28,10 +28,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased `} >
         <ReduxProvider>
           <Header/>
-            <div className="mx-auto px-4 max-w-screen-xl">
+            <div className="mx-auto px-4 max-w-screen-xl flex-1">
               {children}
             </div>
           {/* <Footer/> */}

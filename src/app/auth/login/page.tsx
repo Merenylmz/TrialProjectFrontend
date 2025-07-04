@@ -32,55 +32,61 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="grid grid-cols-3 gap-4  mt-7">   
+        <div className="min-h-screen flex items-center justify-center bg-background">
             <Card className="w-full max-w-sm">
-            <CardHeader>
+                <CardHeader>
                 <CardTitle>Login to your account</CardTitle>
                 <CardDescription>
                     Enter your email below to login to your account
                 </CardDescription>
                 <CardAction>
-                    <Link href={`/auth/register`}><Button variant="link">Sign Up</Button></Link>
+                    <Link href={`/auth/register`}>
+                    <Button variant="link">Sign Up</Button>
+                    </Link>
                 </CardAction>
-            </CardHeader>
-            <CardContent>
-                <form onSubmit={(e:FormEvent<HTMLFormElement>)=>handleSubmit(e)} method="POST">
+                </CardHeader>
+
+                <CardContent>
+                <form onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)} method="POST">
                     <div className="flex flex-col gap-6">
-                        <div className="grid gap-2">
+                    <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
                         <Input
-                            id="email"
-                            type="email"
-                            placeholder="m@example.com"
-                            required
-                            value={inputs.email}
-                            onChange={(e)=>setInputs({...inputs, email: e.target.value})}
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        required
+                        value={inputs.email}
+                        onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
                         />
-                        </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                {/* <a
-                                href="#"
-                                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                >
-                                Forgot your password?
-                                </a> */}
-                            </div>
-                            <Input id="password" type="password" required value={inputs.password} onChange={(e)=>setInputs({...inputs, password: e.target.value})}/>
-                        </div>
                     </div>
+
+                    <div className="grid gap-2">
+                        <div className="flex items-center">
+                        <Label htmlFor="password">Password</Label>
+                        </div>
+                        <Input
+                        id="password"
+                        type="password"
+                        required
+                        value={inputs.password}
+                        onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+                        />
+                    </div>
+                    </div>
+
                     <Button type="submit" className="w-full mt-5" disabled={loading}>
-                    {loading ?
+                    {loading ? (
                         <div className="flex space-x-1 items-center justify-center">
-                            <Loader2Icon className="animate-spin" />
-                        </div> : <div>Login</div>
-                    }                
+                        <Loader2Icon className="animate-spin" />
+                        </div>
+                    ) : (
+                        <div>Login</div>
+                    )}
                     </Button>
                 </form>
-            </CardContent>
+                </CardContent>
             </Card>
-            
         </div>
     );
 }
