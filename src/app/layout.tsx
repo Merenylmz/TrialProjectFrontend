@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import ReduxProvider from "@/store/ReduxProvider";
 // import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
@@ -24,14 +25,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-        <Header/>
-        <div className="mx-auto px-4 max-w-screen-xl">
-          {children}
-        </div>
-        {/* <Footer/> */}
+        <ReduxProvider>
+          <Header/>
+            <div className="mx-auto px-4 max-w-screen-xl">
+              {children}
+            </div>
+          {/* <Footer/> */}
+        </ReduxProvider>
       </body>
     </html>
   );
