@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
     const [inputs, setInputs] = useState({email: "", password: ""});
@@ -23,10 +24,22 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true);
         const res = await dispatch(loginThunk({email: inputs.email, password: inputs.password})) as {payload: {token: string}};
-        
         if (!res.payload.token[0]) {
             return alert("Login Error");
         }
+
+        Cookies.set("token", res.payload.token , {
+            expires: 1,
+            secure: true,
+            sameSite: "strict"
+        });
+
+        Cookies.set("isAuth", "1", {
+            expires: 1,
+            secure: true,
+            sameSite: "strict"
+        })
+
         router.push("/");
         setLoading(false);
     }
