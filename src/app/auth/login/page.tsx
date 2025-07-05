@@ -41,7 +41,6 @@ const LoginPage = () => {
         })
 
         router.push("/");
-        setLoading(false);
     }
 
     return (

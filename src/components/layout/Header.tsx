@@ -7,10 +7,13 @@ import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { logoutState } from "@/store/slice";
+import { useRouter } from "next/navigation";
+// import Cookies from "js-cookie";
 
 const Header = () => {
     const state = useSelector((state: RootState)=>state.auth);
     const dispatch = useDispatch();
+    const router = useRouter();
     return (
         <div className="shadow-sm top-0 bg-gray-800">
             <div className="container items-center justify-between p-4 flex">
@@ -19,6 +22,11 @@ const Header = () => {
                     <Link href={"/"}>Home</Link>
                     <Link href={"/blogs"}>Blogs</Link>
                     <Link href={"/categories"}>Categories</Link>
+                    {/* <Button onClick={()=>{
+                        Cookies.remove("token");
+                        Cookies.remove("isAuth");
+                        console.log("Deleted");
+                    }}>Delete</Button> */}
                 </nav>
                 {
                     !state.isAuth ? 
@@ -31,20 +39,16 @@ const Header = () => {
                             <DropdownMenuTrigger asChild>
                                 <div className="flex space-x-2 align-top">
                                     <Avatar>
-                                        <AvatarImage src="/avatar.png" alt="@shadcn" />
+                                        <AvatarImage src={(state.user as {profilePhoto: string}).profilePhoto ? (state.user as {profilePhoto: string}).profilePhoto : "/avatar.png"} alt="@shadcn" />
                                     </Avatar>
-                                    {/* <Label className="text-white">{(state.user as {name: string}).name}</Label> */}
-                                    <Label className="text-white">Eren</Label>
+                                    <Label className="text-white">{(state.user as {name: string}).name}</Label>
                                 </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="start">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem onClick={()=>router.push("/auth/profile")}>
                                         Profile
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        Settings
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />

@@ -17,20 +17,19 @@ const RegisterPage = () => {
     const router = useRouter();
 
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) =>{
-        e.preventDefault();
-        setLoading(true);
-        if (!inputs.email[0] || !inputs.password[0]) {
-            return alert("Please enter inputs");  
-        }
-        const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: "auth/register", inputs}) as {email: string};
-        console.log(data);
-        
-        if (!data.email[0]) {
-           return alert("Process's not successfully");
-        }
+      e.preventDefault();
+      setLoading(true);
+      if (!inputs.email[0] || !inputs.password[0]) {
+          return alert("Please enter inputs");  
+      }
+      const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: "auth/register", inputs}) as {email: string};
+      console.log(data);
+      
+      if (!data.email[0]) {
+          return alert("Process's not successfully");
+      }
 
-        router.push("/auth/login");
-        setLoading(false);
+      router.push("/auth/login");
     }
 
     return (

@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { loginThunk } from "./authThunk";
+import Cookies from "js-cookie";
+import { UserTypes } from "@/app/(types)/UserTypes";
 
 export interface initialStateInterface {
     token: string,
@@ -17,11 +19,19 @@ const authSlice = createSlice({
     initialState: initialState,
     reducers:{
         logoutState: (state)=>{
-            console.log(state);
-            
             state.token = ""
             state.user = {}
             state.isAuth = false
+
+            Cookies.remove("token");
+            Cookies.remove("isAuth");
+        },
+        editingUserState: (state, action)=>{
+            const {name, email, profilePhoto} = action.payload;
+            (state.user as UserTypes).name = name;
+            (state.user as UserTypes).email = email;
+            (state.user as UserTypes).profilePhoto = profilePhoto;
+            
         }
     },
     extraReducers: (builder)=>{
@@ -34,6 +44,6 @@ const authSlice = createSlice({
     
 });
 
-export const {logoutState} = authSlice.actions;
+export const {logoutState, editingUserState} = authSlice.actions;
 
 export default authSlice.reducer;
