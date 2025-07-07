@@ -9,28 +9,30 @@ import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
 
-    const [inputs, setInputs] = useState({name: "", email: "", password: ""});
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
+  const [inputs, setInputs] = useState({name: "", email: "", password: ""});
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-    const handleSubmit = async(e: FormEvent<HTMLFormElement>) =>{
-      e.preventDefault();
-      setLoading(true);
-      if (!inputs.email[0] || !inputs.password[0]) {
-          return alert("Please enter inputs");  
-      }
-      const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: "auth/register", inputs}) as {email: string};
-      console.log(data);
-      
-      if (!data.email[0]) {
-          return alert("Process's not successfully");
-      }
-
-      router.push("/auth/login");
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+    setLoading(true);
+    if (!inputs.email[0] || !inputs.password[0]) {
+      setLoading(false);
+      return toast.error("Please enter inputs");  
     }
+    const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: "auth/register", inputs}) as {email: string};
+    
+    if (!data.email[0]) {
+      setLoading(false);
+      return toast.error("Process's not successfully");
+    }
+
+    router.push("/auth/login");
+  }
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import ReduxProvider from "@/store/ReduxProvider";
 // import Footer from "@/components/layout/Footer";
+import {ToastContainer} from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,18 @@ export default function RootLayout({
             <div className="mx-auto px-4 max-w-screen-xl flex-1">
               {children}
             </div>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
           {/* <Footer/> */}
         </ReduxProvider>
       </body>

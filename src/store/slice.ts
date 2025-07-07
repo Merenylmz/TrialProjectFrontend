@@ -35,10 +35,18 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder)=>{
-        builder.addCase(loginThunk.fulfilled, (state, action:{payload:{token:string, user: object}})=>{
-            state.isAuth = true;
-            state.token = action.payload.token;
-            state.user = action.payload.user;
+        builder.addCase(loginThunk.fulfilled, (state, action:{payload:{token:string, user: object, status?: boolean}})=>{
+            console.log(action);
+            if (!action.payload.status) {
+                state.isAuth = false;
+                state.token = "";
+                state.user = {};
+            }
+            else{
+                state.isAuth = true;
+                state.token = action.payload.token;
+                state.user = action.payload.user;
+            }
         });
     }
     

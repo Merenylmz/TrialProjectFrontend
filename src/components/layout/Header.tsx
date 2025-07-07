@@ -8,12 +8,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { logoutState } from "@/store/slice";
 import { useRouter } from "next/navigation";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+
 
 const Header = () => {
     const state = useSelector((state: RootState)=>state.auth);
     const dispatch = useDispatch();
     const router = useRouter();
+    useEffect(()=>{
+        Cookies.remove("token");
+        Cookies.remove("isAuth");
+    }, []);
     return (
         <div className="shadow-sm top-0 bg-gray-800">
             <div className="container items-center justify-between p-4 flex">
@@ -50,9 +56,15 @@ const Header = () => {
                                     <DropdownMenuItem onClick={()=>router.push("/auth/profile")}>
                                         Profile
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={()=>router.push("/auth/myblogs")}>
+                                        My Blogs
+                                    </DropdownMenuItem>
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={()=>dispatch(logoutState())}>
+                                <DropdownMenuItem onClick={()=>{
+                                    dispatch(logoutState())
+                                    router.push("/");
+                                }}>
                                     Log out
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

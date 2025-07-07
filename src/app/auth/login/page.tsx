@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
     const [inputs, setInputs] = useState({email: "", password: ""});
@@ -23,19 +24,23 @@ const LoginPage = () => {
     const handleSubmit = async(e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         setLoading(true);
-        const res = await dispatch(loginThunk({email: inputs.email, password: inputs.password})) as {payload: {token: string}};
-        if (!res.payload.token[0]) {
-            return alert("Login Error");
+        if (!inputs.email || !inputs.password) {
+            setLoading(false);
+            return toast.error("Please Enter inputs");
+        }
+        const res = await dispatch(loginThunk({email: inputs.email, password: inputs.password})) as {payload: {token: string, status?: boolean}};
+        
+        if (!res.payload.status) {
+            setLoading(false);
+            return toast.error("Wrong Pass or email");
         }
 
         Cookies.set("token", res.payload.token , {
-            expires: 1,
             secure: true,
             sameSite: "strict"
         });
 
         Cookies.set("isAuth", "1", {
-            expires: 1,
             secure: true,
             sameSite: "strict"
         })
