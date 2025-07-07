@@ -10,7 +10,12 @@ const nextConfig: NextConfig = {
         pathname: '/**', 
       }
     ]
+  },
+  env: {
+    apiLink: process.env.apiLink,
+    NEXT_PUBLIC_API_LINK: process.env.NEXT_PUBLIC_API_LINK
   }
+
 
 };
 
