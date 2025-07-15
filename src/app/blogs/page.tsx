@@ -1,3 +1,4 @@
+// export const revalidate = 10;
 import BlogListComponents from "@/components/Blogs/BlogListComponents";
 import CommonAPI from "@/utils/CommonAPI";
 import { BlogType } from "../(types)/BlogTypes";

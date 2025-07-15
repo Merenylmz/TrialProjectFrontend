@@ -1,6 +1,6 @@
 "use client"
 
-import { BlogType } from "@/app/(types)/BlogTypes";
+// import { BlogType } from "@/app/(types)/BlogTypes";
 import { CategoryType } from "@/app/(types)/CategoryTypes";
 import { UserTypes } from "@/app/(types)/UserTypes";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RootState } from "@/store";
 import CommonAPI from "@/utils/CommonAPI";
+import axios from "axios";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 
 const BlogCreatePage = () => {
 
@@ -21,6 +23,7 @@ const BlogCreatePage = () => {
     const [loading, setLoading] = useState(false);
     const state = useSelector((state: RootState)=>state.auth);
     const router = useRouter();
+    
     
     useEffect(()=>{
         (async()=>{
@@ -33,18 +36,23 @@ const BlogCreatePage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            if (inputs.categoryId == "0") {
+            if (inputs.categoryId === "0") {
                 setLoading(false);
-                return toast.error("Please enter category");
-            }
-            const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: `blogs/create?token=${state.token}`, inputs: {...inputs, userId: (state.user as UserTypes).id}}) as BlogType;
-            if (!data.title) {
-                setLoading(false);
-                return toast.error("Error");
+                return toast.error("Lütfen bir kategori seçiniz.");
             }
 
-            router.push("/");
-            setLoading(false);
+            const response = await axios.post('/api/blogs/add', { 
+                ...inputs, 
+                userId: (state.user as UserTypes).id,
+                token: state.token 
+            }); 
+
+            if (!response.data.success){
+                return toast.error(response.data.message || "Blog eklenirken bir hata oluştu.");
+            }
+            
+            toast.success("Blog başarıyla eklendi!");
+            router.push("/"); 
         } catch (error) {
             console.log(error);
         }

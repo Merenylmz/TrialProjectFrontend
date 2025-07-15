@@ -1,3 +1,4 @@
+// export const revalidate = 10;
 import CategoryListGroupComponent from "@/components/Home/CategoryListGroupComponent";
 import CommonAPI from "@/utils/CommonAPI";
 import { CategoryType } from "./(types)/CategoryTypes";
@@ -7,8 +8,8 @@ import { BlogType } from "./(types)/BlogTypes";
 
 
 export default async function Home() {
-  const categories = await CommonAPI({url: process.env.apiLink as string, method: "GET", parameters: "categories"}) as Array<CategoryType>;
-  const blogs = await CommonAPI({url: process.env.apiLink as string, method: "GET", parameters: "blogs"}) as Array<BlogType>;
+  const categories = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "GET", parameters: "categories"}) as Array<CategoryType>;
+  const blogs = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "GET", parameters: "blogs"}) as Array<BlogType>;
   return (
     <div className="mt-7">
       <CategoryListGroupComponent categories={categories}/>

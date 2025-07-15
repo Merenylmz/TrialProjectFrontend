@@ -1,17 +1,17 @@
 "use client"
 
-import { CategoryType } from "@/app/(types)/CategoryTypes";
 import { UserTypes } from "@/app/(types)/UserTypes";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RootState } from "@/store";
-import CommonAPI from "@/utils/CommonAPI";
+import axios from "axios";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 
 const CategoryCreatePage = () => {
 
@@ -28,13 +28,28 @@ const CategoryCreatePage = () => {
                 setLoading(false);
                 return toast.error("Please enter input");
             }
-            const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: `categories/create?token=${state.token}`, inputs: {...inputs, userId: (state.user as UserTypes).id}}) as CategoryType;
-            if (!data.title) {
+            // const data = await CommonAPI({url: process.env.NEXT_PUBLIC_API_LINK as string, method: "POST", parameters: `categories/create?token=${state.token}`, inputs: {...inputs, userId: (state.user as UserTypes).id}}) as CategoryType;
+            // if (!data.title) {
+            //     setLoading(false);
+            //     return toast.error("Error");
+            // }
+
+            
+            const response = await axios.post("/api/categories/add", {
+                title: inputs.title,
+                token: state.token,
+                userId: (state.user as UserTypes).id
+            });
+            // console.log(response);
+            
+
+            if (!response.data.status) {
                 setLoading(false);
-                return toast.error("Error");
+                return toast.error("Error");  
             }
+
+            
             router.push("/");
-            setLoading(false);
         } catch (error) {
             console.log(error);
         }

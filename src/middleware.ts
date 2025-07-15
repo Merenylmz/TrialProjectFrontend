@@ -12,7 +12,6 @@ export default function Middleware(request: NextRequest) {
   }
 
   if (isAuth != "1" && !token && (request.nextUrl.pathname === '/auth/profile' || request.nextUrl.pathname === '/auth/myblogs' || request.nextUrl.pathname === '/blogs/create' || request.nextUrl.pathname === '/categories/create')) {
-    console.log("Denemeeeee");
     return NextResponse.redirect(new URL("/", request.url));
   }
 

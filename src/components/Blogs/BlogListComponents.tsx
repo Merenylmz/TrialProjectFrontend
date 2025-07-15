@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const BlogListComponents = ({blogs} : {blogs: Array<BlogType>}) => {
     // const [blog]
-
+    
     return (
         <div className="mx-auto grid grid-cols-3 gap-4 mt-7">
             {
